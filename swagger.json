@@ -380,7 +380,7 @@
                 "tags": [
                     "Agent"
                 ],
-                "summary": "Get average delay of vendors in past week",
+                "summary": "Get average delay of vendors in past week in minutes",
                 "security": [
                     {
                         "bearerAuth": []
