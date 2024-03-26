@@ -1,0 +1,48 @@
+version: "3.7"
+
+services:
+    order_delay_app:
+        container_name: order_delay_app
+        build:
+            context: ..
+            dockerfile: docker/Dockerfile
+        volumes:
+            - ..:/var/www/html
+        networks:
+            - order_delay
+        restart: always
+
+    order_delay_nginx:
+        container_name: order_delay_nginx
+        build:
+            context: nginx/
+            dockerfile: Dockerfile
+        volumes:
+            - ..:/var/www/html
+        ports:
+            - "8080:80"
+        networks:
+            - order_delay
+        restart: always
+
+    order_delay_postgres:
+        image: postgres:latest
+        container_name: order_delay_postgres
+        ports:
+            - "5433:5432"
+        environment:
+            POSTGRES_USER: root
+            POSTGRES_DB: order_delay
+            POSTGRES_PASSWORD: "123456789"
+        volumes:
+            - order_delay_postgres_data:/var/lib/postgres
+        networks:
+            - order_delay
+        restart: always
+
+volumes:
+    order_delay_postgres_data:
+       name: order_delay_postgres_data
+
+networks:
+    order_delay:
